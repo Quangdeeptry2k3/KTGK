@@ -1,0 +1,228 @@
+/* Reset mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to right, #e0eafc, #cfdef3);
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container chính */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1;
+}
+
+/* Menu điều hướng */
+.menu {
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 25px;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-block;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.menu a:hover {
+    background: #3498db;
+    border-radius: 5px;
+    transform: translateY(-2px);
+}
+
+/* Tiêu đề */
+h2 {
+    text-align: center;
+    color: #1e3c72;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    width: 60px;
+    height: 4px;
+    background: #3498db;
+    display: block;
+    margin: 10px auto;
+    border-radius: 2px;
+}
+
+/* Bảng (trang index.php) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+table th, table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+table th {
+    background: #1e3c72;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+table tr {
+    transition: background 0.3s ease;
+}
+
+table tr:hover {
+    background: #f5f7fa;
+}
+
+table td img {
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+table td img:hover {
+    transform: scale(1.1);
+}
+
+/* Form (trang register.php, login.php, create.php, edit.php) */
+form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+    border-top: 5px solid #3498db;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #1e3c72;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.input-field, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus, select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    outline: none;
+}
+
+/* Nút */
+.add-btn, input[type="submit"] {
+    background: #3498db;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.add-btn:hover, input[type="submit"]:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Liên kết trong bảng */
+table a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+table a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Căn giữa các phần tử */
+p, a:not(.menu a):not(table a) {
+    text-align: center;
+    display: block;
+    margin: 15px 0;
+    color: #1e3c72;
+    font-weight: 500;
+}
+
+a:not(.menu a):not(table a):hover {
+    color: #3498db;
+}
+
+/* Thông báo */
+p[style*="color: red"], p[style*="color: green"] {
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+p[style*="color: red"] {
+    background: #ffe6e6;
+    color: #e74c3c;
+}
+
+p[style*="color: green"] {
+    background: #e6ffed;
+    color: #27ae60;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #1e3c72;
+    color: #fff;
+    margin-top: auto;
+    border-radius: 5px;
+    font-size: 14px;
+}
