@@ -3,12 +3,12 @@ session_start();
 require_once 'database.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = getConnection();
-    $username = $_POST['username'];
+    $ma_sv = $_POST['ma_sv'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username = ?";
+    $sql = "SELECT * FROM users WHERE ma_sv = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $ma_sv);
     $stmt->execute();
     $result = $stmt->get_result();
     
@@ -16,14 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             $_SESSION['loggedin'] = true;
-            $_SESSION['username'] = $username;
-            $_SESSION['ma_sv'] = $row['ma_sv']; // Lưu ma_sv vào session
+            $_SESSION['ma_sv'] = $ma_sv; // Lưu ma_sv vào session
             header("Location: index.php");
+            exit;
         } else {
             echo "Mật khẩu không đúng!";
         }
     } else {
-        echo "Tên đăng nhập không tồn tại!";
+        echo "Mã sinh viên không tồn tại!";
     }
     $conn->close();
 }
@@ -53,8 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form method="POST">
             <div class="form-group">
-                <label for="username">Tên đăng nhập:</label>
-                <input type="text" name="username" id="username" class="input-field" required>
+                <label for="ma_sv">Mã Sinh Viên:</label>
+                <input type="text" name="ma_sv" id="ma_sv" class="input-field" required>
             </div>
             <div class="form-group">
                 <label for="password">Mật khẩu:</label>

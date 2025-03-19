@@ -28,7 +28,7 @@ $result = $conn->query("SELECT * FROM hoc_phan");
         <h2>DANH SÁCH HỌC PHẦN</h2>
 
         <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
-            <p style="color: green; text-align: center;">Bạn đã đăng nhập với tài khoản: <?php echo $_SESSION['username']; ?></p>
+            
         <?php else: ?>
             <p style="color: red; text-align: center;">Vui lòng đăng nhập để đăng ký học phần!</p>
         <?php endif; ?>

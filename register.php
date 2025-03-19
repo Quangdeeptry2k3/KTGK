@@ -1,24 +1,41 @@
 <?php
-session_start(); // Thêm session_start() để đảm bảo $_SESSION được khởi tạo
+session_start();
 require_once 'database.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = getConnection();
-    $username = $_POST['username'];
+    $ma_sv = $_POST['ma_sv'];
+    $email = $_POST['email']; // Lấy email từ form
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $email = $_POST['email'];
 
-    $check = $conn->query("SELECT * FROM users WHERE username = '$username'");
-    if ($check->num_rows > 0) {
-        echo "Tên đăng nhập đã tồn tại!";
+    // Kiểm tra xem ma_sv đã tồn tại trong bảng users chưa
+    $check_ma_sv = $conn->query("SELECT * FROM users WHERE ma_sv = '$ma_sv'");
+    if ($check_ma_sv->num_rows > 0) {
+        echo "Mã sinh viên đã được đăng ký!";
+        exit;
+    }
+
+    // Kiểm tra xem email đã tồn tại chưa
+    $check_email = $conn->query("SELECT * FROM users WHERE email = '$email'");
+    if ($check_email->num_rows > 0) {
+        echo "Email đã được đăng ký!";
+        exit;
+    }
+
+    // Kiểm tra xem ma_sv có tồn tại trong bảng sinh_vien không
+    $check_sv = $conn->query("SELECT * FROM sinh_vien WHERE ma_sv = '$ma_sv'");
+    if ($check_sv->num_rows == 0) {
+        echo "Mã sinh viên không tồn tại trong hệ thống!";
+        exit;
+    }
+
+    $sql = "INSERT INTO users (ma_sv, email, password) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $ma_sv, $email, $password);
+    if ($stmt->execute()) {
+        header("Location: login.php");
+        exit;
     } else {
-        $sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $username, $password, $email);
-        if ($stmt->execute()) {
-            echo "Đăng ký thành công! <a href='login.php'>Đăng nhập ngay</a>";
-        } else {
-            echo "Đăng ký thất bại!";
-        }
+        echo "Đăng ký thất bại!";
     }
     $conn->close();
 }
@@ -44,20 +61,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
         </div>
 
-        <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
+        <h2>ĐĂNG KÝ</h2>
 
         <form method="POST">
             <div class="form-group">
-                <label for="username">Tên đăng nhập:</label>
-                <input type="text" name="username" id="username" class="input-field" required>
+                <label for="ma_sv">Mã Sinh Viên:</label>
+                <input type="text" name="ma_sv" id="ma_sv" class="input-field" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" class="input-field" required>
             </div>
             <div class="form-group">
                 <label for="password">Mật khẩu:</label>
                 <input type="password" name="password" id="password" class="input-field" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" class="input-field">
             </div>
             <input type="submit" value="Đăng Ký">
         </form>

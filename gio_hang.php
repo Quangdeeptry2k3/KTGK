@@ -8,6 +8,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
+// Kiểm tra ma_sv trong session
+if (!isset($_SESSION['ma_sv']) || empty($_SESSION['ma_sv'])) {
+    echo "Không tìm thấy mã sinh viên. Vui lòng kiểm tra tài khoản của bạn.";
+    exit;
+}
+
 $conn = getConnection();
 $ma_sv = $_SESSION['ma_sv'];
 
@@ -34,15 +40,26 @@ $registered_courses = $conn->query("SELECT dk.ma_hoc_phan, hp.ten_hoc_phan, hp.s
             <a href="#">Test1</a>
             <a href="index.php">Sinh Viên</a>
             <a href="hoc_phan.php">Học Phần</a>
+            <a href="gio_hang.php">Giỏ Hàng</a>
+            <a href="lich_su_dang_ky.php">Lịch Sử Đăng Ký</a>
             <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
                 <a href="register.php">Đăng Ký</a>
                 <a href="login.php">Đăng Nhập</a>
             <?php else: ?>
+                <span style="color: white; padding: 15px;">Xin chào, <?php echo $_SESSION['ma_sv']; ?></span>
                 <a href="logout.php">Đăng Xuất</a>
             <?php endif; ?>
         </div>
 
         <h2>GIỎ HÀNG</h2>
+
+        <!-- Hiển thị thông báo -->
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo $_SESSION['message'];
+            unset($_SESSION['message']);
+        }
+        ?>
 
         <!-- Thông tin sinh viên -->
         <div class="student-info">
@@ -73,7 +90,7 @@ $registered_courses = $conn->query("SELECT dk.ma_hoc_phan, hp.ten_hoc_phan, hp.s
                     <tr>
                         <th>Mã Học Phần</th>
                         <th>Tên Học Phần</th>
-                        <th>Số Tín Chỉ</th>
+                        <th>Số Lượng Dự Kiến Còn Lại</th>
                         <th>Hành Động</th>
                     </tr>
                     <?php while ($course = $registered_courses->fetch_assoc()): ?>
@@ -87,6 +104,11 @@ $registered_courses = $conn->query("SELECT dk.ma_hoc_phan, hp.ten_hoc_phan, hp.s
                     </tr>
                     <?php endwhile; ?>
                 </table>
+                <!-- Nút Xóa Hết và Lưu Học Phần -->
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="xoa_het_hoc_phan.php" class="delete-btn" onclick="return confirm('Bạn có chắc muốn xóa hết học phần đã đăng ký?')">Xóa Hết Học Phần</a>
+                    <a href="luu_hoc_phan.php" class="save-btn" onclick="return confirm('Bạn có chắc muốn lưu danh sách học phần đã đăng ký?')">Lưu Học Phần</a>
+                </div>
             <?php else: ?>
                 <p style="color: red; text-align: center;">Bạn chưa đăng ký học phần nào!</p>
             <?php endif; ?>

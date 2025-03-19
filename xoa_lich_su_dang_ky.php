@@ -8,13 +8,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 $conn = getConnection();
-$ma_sv = $_SESSION['ma_sv'];
+$id = $_GET['id'];
 
-$sql = "DELETE FROM dang_ky WHERE ma_sv = ?";
+$sql = "DELETE FROM lich_su_dang_ky WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $ma_sv);
+$stmt->bind_param("i", $id);
 $stmt->execute();
 
 $conn->close();
-header("Location: gio_hang.php");
+header("Location: lich_su_dang_ky.php");
+exit;
 ?>

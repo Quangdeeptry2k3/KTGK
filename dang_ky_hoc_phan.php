@@ -25,6 +25,7 @@ $result = $conn->query("SELECT * FROM hoc_phan");
                 <a href="register.php">Đăng Ký</a>
                 <a href="login.php">Đăng Nhập</a>
             <?php else: ?>
+                <span style="color: white; padding: 15px;">Xin chào, <?php echo $_SESSION['ma_sv']; ?></span>
                 <a href="logout.php">Đăng Xuất</a>
             <?php endif; ?>
         </div>
@@ -37,8 +38,8 @@ $result = $conn->query("SELECT * FROM hoc_phan");
                 <select name="ma_hoc_phan" id="ma_hoc_phan" class="input-field" required>
                     <option value="">-- Chọn học phần --</option>
                     <?php while ($row = $result->fetch_assoc()): ?>
-                        <option value="<?php echo $row['ma_hoc_phan']; ?>">
-                            <?php echo $row['ten_hoc_phan']; ?> (Mã: <?php echo $row['ma_hoc_phan']; ?>)
+                        <option value="<?php echo $row['ma_hoc_phan']; ?>" <?php echo $row['so_luong_du_kien'] <= 0 ? 'disabled' : ''; ?>>
+                            <?php echo $row['ten_hoc_phan']; ?> (Mã: <?php echo $row['ma_hoc_phan']; ?>, Còn: <?php echo $row['so_luong_du_kien']; ?> chỗ)
                         </option>
                     <?php endwhile; ?>
                 </select>
